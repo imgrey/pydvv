@@ -106,8 +106,8 @@ class DVVSet:
         # defense against non-order preserving serialization
         vectors = sorted(vector, key=functools.cmp_to_key(cmp_fun))
         entries = []
-        for i, n in vectors:
-            entries.append([i, n, []])
+        for i_value, number in vectors:
+            entries.append([i_value, number, []])
         return Clock(entries, value)
 
     def new_list_with_history(self, vector: Vector, value) -> Clock:
@@ -123,7 +123,7 @@ class DVVSet:
         Synchronizes a list of clocks using _sync().
         It discards (causally) outdated values, while merging all causal histories.
         """
-        return foldl(self._sync, 0, clock)
+        return foldl(self._sync, [], clock)
 
     def _sync(self, clock1, clock2) -> Clock:
         if not clock1:
